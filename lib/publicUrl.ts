@@ -15,6 +15,10 @@ export function getEmployeePublicUrl(employeeId: string): string {
   return `${getBaseUrl()}/e/${employeeId}`;
 }
 
+export function getEmployeeVCardUrl(employeeId: string): string {
+  return `/contact/${employeeId}.vcf`;
+}
+
 export function slugifyFileName(value: string): string {
   return value
     .normalize("NFD")

@@ -8,9 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { QRCodeDisplay } from "@/components/qr-code-display";
 import type { Employee } from "@/lib/types";
-import { downloadVCard } from "@/lib/vcard";
 import { downloadQRCodeById } from "@/lib/qr-utils";
-import { getEmployeePublicUrl } from "@/lib/publicUrl";
+import { getEmployeePublicUrl, getEmployeeVCardUrl } from "@/lib/publicUrl";
 
 interface EmployeeCardProps {
   employee: Employee;
@@ -20,9 +19,7 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
   const [copied, setCopied] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
 
-  const handleDownloadVCard = () => {
-    downloadVCard(employee);
-  };
+  const vcardUrl = getEmployeeVCardUrl(employee.id);
 
   const handleDownloadQR = async () => {
     try {
@@ -100,9 +97,11 @@ export function EmployeeCard({ employee }: EmployeeCardProps) {
                 <Download className="mr-1.5 h-4 w-4" />
                 QR code
               </Button>
-              <Button size="sm" variant="outline" onClick={handleDownloadVCard}>
-                <Download className="mr-1.5 h-4 w-4" />
-                vCard
+              <Button asChild size="sm" variant="outline">
+                <a href={vcardUrl}>
+                  <Download className="mr-1.5 h-4 w-4" />
+                  vCard
+                </a>
               </Button>
               <Button size="sm" variant="ghost" onClick={handleCopyLink}>
                 {copied ? (

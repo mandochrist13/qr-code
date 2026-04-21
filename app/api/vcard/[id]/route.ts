@@ -21,7 +21,8 @@ export async function GET(
     status: 200,
     headers: {
       "Content-Type": "text/vcard; charset=utf-8",
-      "Content-Disposition": `attachment; filename="${fileName}"; filename*=UTF-8''${encodedFileName}`,
+      "Content-Disposition": `inline; filename="${fileName}"; filename*=UTF-8''${encodedFileName}`,
+      "X-Content-Type-Options": "nosniff",
       "Cache-Control": "no-store",
     },
   });

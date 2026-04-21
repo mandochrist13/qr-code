@@ -18,8 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { QRCodeDisplay } from "@/components/qr-code-display";
 import type { Employee } from "@/lib/types";
-import { downloadVCard } from "@/lib/vcard";
-import { getEmployeePublicUrl } from "@/lib/publicUrl";
+import { getEmployeePublicUrl, getEmployeeVCardUrl } from "@/lib/publicUrl";
 
 interface PublicProfileProps {
   employee: Employee;
@@ -29,9 +28,7 @@ export function PublicProfile({ employee }: PublicProfileProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const showImage = Boolean(employee.photoUrl) && !imageFailed;
 
-  const handleSaveContact = () => {
-    downloadVCard(employee);
-  };
+  const vcardUrl = getEmployeeVCardUrl(employee.id);
 
   const handleShare = async () => {
     const url = getEmployeePublicUrl(employee.id);
@@ -99,9 +96,11 @@ export function PublicProfile({ employee }: PublicProfileProps) {
           </div>
 
           <div className="grid gap-2.5">
-            <Button onClick={handleSaveContact} size="lg" className="w-full">
-              <Download className="mr-2 h-5 w-5" />
-              Enregistrer le contact
+            <Button asChild size="lg" className="w-full">
+              <a href={vcardUrl}>
+                <Download className="mr-2 h-5 w-5" />
+                Enregistrer le contact
+              </a>
             </Button>
 
             <div className="grid grid-cols-2 gap-2.5">

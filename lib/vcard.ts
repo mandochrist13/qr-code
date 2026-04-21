@@ -47,16 +47,3 @@ export function getVCardFileName(employee: Employee): string {
   const slug = slugifyFileName(employee.nomComplet) || employee.id;
   return `${slug}.vcf`;
 }
-
-export function downloadVCard(employee: Employee): void {
-  const vcard = generateVCard(employee);
-  const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = getVCardFileName(employee);
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
