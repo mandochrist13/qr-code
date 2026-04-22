@@ -180,7 +180,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-010-0536E8DD-2026",
     photoUrl:
-      "",
+      "/images/tabitha.png",
     nomComplet: "Tabitha NKONA MVE MENGOME",
     poste: "Chargée d'études",
     profession: "Gestion des adhérents et services numériques",
@@ -191,7 +191,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-002-93B7BF0C-2026",
     photoUrl:
-      "",
+      "/images/thierry.png",
     nomComplet: "Thierry Léo BOUABE KOUMBA",
     poste: "Support digital - Infographe",
     profession: "Communication",
