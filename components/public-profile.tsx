@@ -5,22 +5,15 @@ import { useState } from "react";
 import {
   Phone,
   Mail,
-  MapPin,
   Globe,
-  Building2,
-  Briefcase,
   User,
-  Download,
-  ExternalLink,
+  MessageCircle,
   Share2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { QRCodeDisplay } from "@/components/qr-code-display";
-import { InteractiveBackground } from "@/components/interactive-background";
-import { FegBrand } from "@/components/feg-brand";
+import { Card } from "@/components/ui/card";
+import { ProfileDetails, ProfileFooter } from "@/components/profile-details";
 import type { Employee } from "@/lib/types";
-import { getEmployeePublicUrl, getEmployeeVCardUrl } from "@/lib/publicUrl";
+import { getEmployeePublicUrl } from "@/lib/publicUrl";
 
 interface PublicProfileProps {
   employee: Employee;
@@ -29,20 +22,17 @@ interface PublicProfileProps {
 export function PublicProfile({ employee }: PublicProfileProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const showImage = Boolean(employee.photoUrl) && !imageFailed;
-
-  const vcardUrl = getEmployeeVCardUrl(employee.id);
+  const whatsappNumber = employee.telephone?.replace(/[^\d]/g, "");
 
   const handleShare = async () => {
     const url = getEmployeePublicUrl(employee.id);
-    const shareData = {
-      title: `${employee.nomComplet} — ${employee.poste}`,
-      text: `Contact professionnel de ${employee.nomComplet}`,
-      url,
-    };
-
     try {
       if (typeof navigator.share === "function") {
-        await navigator.share(shareData);
+        await navigator.share({
+          title: `${employee.nomComplet} — ${employee.poste}`,
+          text: `Contact professionnel de ${employee.nomComplet}`,
+          url,
+        });
         return;
       }
       if (navigator.clipboard?.writeText) {
@@ -56,204 +46,143 @@ export function PublicProfile({ employee }: PublicProfileProps) {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-6 sm:py-10">
-      <Card className="overflow-hidden border-[#c9a865]/30 shadow-2xl shadow-[#0f3d26]/20">
-        <div className="relative overflow-hidden pb-8 pt-5">
-          <InteractiveBackground />
-
-          <div className="pointer-events-none flex justify-center">
-            <div className="shadow-lg backdrop-blur-md ">
-              <Image
-                  src="/logo_FEG_blanc.png"
-                  alt={employee.nomComplet}
-                  width={80}
-                  height={80}
-                  priority
-                  onError={() => setImageFailed(true)}
-                  className="object-cover"
-                />
+    <div className="mx-auto max-w-md px-4 py-6 sm:py-10">
+      <Card className="overflow-hidden border-[#c9a865]/30 p-0 shadow-2xl shadow-[#0f3d26]/30">
+        <div className="relative aspect-9/16 w-full overflow-hidden bg-[#0f3d26]">
+          {showImage ? (
+            <Image
+              src={employee.photoUrl}
+              alt={employee.nomComplet}
+              fill
+              priority
+              onError={() => setImageFailed(true)}
+              className="object-cover"
+              sizes="(max-width: 480px) 100vw, 448px"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-[#1a5237] to-[#0f3d26]">
+              <User className="h-32 w-32 text-[#c9a865]/60" />
             </div>
+          )}
+
+          <div className="absolute inset-0 bg-linear-to-b from-black/25 via-transparent to-black/75" />
+
+          <div className="absolute left-4 top-4 z-10">
+            <Image
+              src="/logo_FEG_blanc.png"
+              alt="FEG"
+              width={64}
+              height={64}
+              priority
+              className="h-14 w-auto drop-shadow-lg"
+            />
           </div>
 
-          <div className="relative mt-14 flex flex-col items-center px-4">
-            <div className="relative">
-              <div className="absolute -inset-3 rounded-full bg-linear-to-br from-[#c9a865] via-[#eadb8e] to-[#1a5237] opacity-50 blur-md" />
-              {showImage ? (
-                <Image
-                  src={employee.photoUrl}
-                  alt={employee.nomComplet}
-                  width={160}
-                  height={160}
-                  priority
-                  onError={() => setImageFailed(true)}
-                  className="relative h-32 w-32 rounded-full object-cover ring-4 ring-white/95 shadow-2xl"
-                />
-              ) : (
-                <div className="relative flex h-32 w-32 items-center justify-center rounded-full bg-[#1a5237] ring-4 ring-white/95 shadow-2xl">
-                  <User className="h-16 w-16 text-[#c9a865]" />
-                </div>
-              )}
+          {employee.statut && (
+            <div className="absolute right-4 top-4 z-10">
+              <span className="inline-flex items-center rounded-full bg-[#c9a865]/95 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#0f3d26] shadow-md">
+                {employee.statut}
+              </span>
             </div>
-            <h1 className="mt-5 text-balance text-center text-2xl font-bold text-white drop-shadow-md sm:text-3xl">
+          )}
+
+          <div className="pointer-events-none absolute inset-x-0 top-[48%] -translate-y-1/2">
+            <svg
+              viewBox="0 0 400 180"
+              preserveAspectRatio="none"
+              className="h-40 w-full"
+              aria-hidden
+            >
+              <polyline
+                points="0,20 200,130 400,20"
+                stroke="#c9a865"
+                strokeWidth="26"
+                fill="none"
+                opacity="0.88"
+                strokeLinejoin="miter"
+              />
+              <polyline
+                points="0,75 200,185 400,75"
+                stroke="#1a5237"
+                strokeWidth="26"
+                fill="none"
+                opacity="0.85"
+                strokeLinejoin="miter"
+              />
+            </svg>
+          </div>
+
+          <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-4 pb-6 pt-10">
+            <h1 className="text-balance text-center text-3xl font-bold leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-4xl">
               {employee.nomComplet}
             </h1>
-            {employee.statut && (
-              <div className="mt-2 inline-flex items-center rounded-full bg-[#c9a865]/90 px-3 py-1 text-xs font-semibold text-[#0f3d26] shadow-sm">
-                {employee.statut}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <CardContent className="space-y-6 bg-white p-5 sm:p-6">
-          <div className="space-y-1 text-center">
-            <p className="text-lg font-semibold text-[#1a5237]">
+            <p className="mt-2 text-center text-sm font-medium tracking-wide text-[#eadb8e] drop-shadow-md sm:text-base">
               {employee.poste}
             </p>
             {employee.profession && (
-              <p className="text-sm text-muted-foreground">{employee.profession}</p>
-            )}
-          </div>
-
-          <div className="grid gap-2.5">
-            {/* <Button asChild size="lg" className="w-full">
-              <a href={vcardUrl}>
-                <Download className="mr-2 h-5 w-5" />
-                Enregistrer le contact
-              </a>
-            </Button> */}
-
-            <div className="grid grid-cols-2 gap-2.5">
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="border-[#1a5237]/30 text-[#1a5237] hover:bg-[#1a5237] hover:text-white"
-              >
-                <a href={`tel:${employee.telephone}`}>
-                  <Phone className="mr-2 h-5 w-5" />
-                  Appeler
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="secondary"
-                size="lg"
-                className="bg-[#063a1e] relative hover:bg-white group"
-              >
-                <a href={`mailto:${employee.email}`}>
-                  
-                  <span className="absolute inset-0 w-full h-full bg-[#dcdaa4] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out z-0"></span>
-                      <span className="relative mr-3 z-10 transition-colors duration-500 ease-in-out group-hover:text-[#063a1e]">
-                        <p className="flex justify-center items-center"><Mail className="mr-2 h-5 w-5" />
-                  Email</p>
-                      </span>
-                </a>
-              </Button>
-            </div>
-
-            {/* <Button onClick={handleShare} variant="ghost" size="sm" className="w-full">
-              <Share2 className="mr-2 h-4 w-4" />
-              Partager cette fiche
-            </Button> */}
-          </div>
-
-          <div className="space-y-4 rounded-xl border border-[#c9a865]/20 bg-linear-to-br from-[#1a5237]/5 via-white to-[#c9a865]/10 p-5">
-            <InfoRow
-              icon={Phone}
-              label="Téléphone"
-              value={employee.telephone}
-              href={`tel:${employee.telephone}`}
-            />
-            <InfoRow
-              icon={Mail}
-              label="Email"
-              value={employee.email}
-              href={`mailto:${employee.email}`}
-            />
-            {employee.entreprise && (
-              <InfoRow icon={Building2} label="Entreprise" value={employee.entreprise} />
-            )}
-            <InfoRow icon={Briefcase} label="Poste" value={employee.poste} />
-            {employee.adresse && (
-              <InfoRow icon={MapPin} label="Adresse" value={employee.adresse} />
-            )}
-            {employee.siteWeb && (
-              <InfoRow
-                icon={Globe}
-                label="Site web"
-                value={employee.siteWeb}
-                href={employee.siteWeb}
-                external
-              />
-            )}
-          </div>
-
-          {employee.bioCourte && (
-            <div className="space-y-2">
-              <h2 className="text-sm font-semibold text-foreground">À propos</h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {employee.bioCourte}
+              <p className="mt-0.5 text-center text-xs italic text-white/80 drop-shadow">
+                {employee.profession}
               </p>
+            )}
+
+            <div className="mt-5 flex items-center justify-center gap-3">
+              <SocialIcon href={`tel:${employee.telephone}`} label="Appeler">
+                <Phone className="h-4.5 w-4.5" />
+              </SocialIcon>
+              <SocialIcon href={`mailto:${employee.email}`} label="Email">
+                <Mail className="h-4.5 w-4.5" />
+              </SocialIcon>
+              {whatsappNumber && (
+                <SocialIcon
+                  href={`https://wa.me/${whatsappNumber}`}
+                  label="WhatsApp"
+                  external
+                >
+                  <MessageCircle className="h-[18px] w-[18px]" />
+                </SocialIcon>
+              )}
+              {employee.siteWeb && (
+                <SocialIcon href={employee.siteWeb} label="Site web" external>
+                  <Globe className="h-[18px] w-[18px]" />
+                </SocialIcon>
+              )}
+              {/* <button
+                type="button"
+                onClick={handleShare}
+                aria-label="Partager"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-md transition hover:bg-[#c9a865] hover:text-[#0f3d26]"
+              >
+                <Share2 className="h-[18px] w-[18px]" />
+              </button> */}
             </div>
-          )}
-        </CardContent>
+          </div>
+        </div>
+
+        <ProfileDetails employee={employee} />
       </Card>
 
-      {employee.entreprise && (
-        <div className="mt-6 flex flex-col items-center gap-2">
-          <Image
-                  src="/logo FEG revectoriser.png"
-                  alt={employee.nomComplet}
-                  width={80}
-                  height={80}
-                  priority
-                  onError={() => setImageFailed(true)}
-                  className="object-cover"
-                />
-          <p className="text-center text-xs text-muted-foreground">
-            Propulsé par la {employee.entreprise}
-          </p>
-        </div>
-      )}
+      <ProfileFooter employee={employee} />
     </div>
   );
 }
 
-interface InfoRowProps {
-  icon: React.ComponentType<{ className?: string }>;
+interface SocialIconProps {
+  href: string;
   label: string;
-  value: string;
-  href?: string;
   external?: boolean;
+  children: React.ReactNode;
 }
 
-function InfoRow({ icon: Icon, label, value, href, external }: InfoRowProps) {
-  const displayValue = external ? value.replace(/^https?:\/\//, "") : value;
-
+function SocialIcon({ href, label, external, children }: SocialIconProps) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#1a5237]/10">
-        <Icon className="h-3.5 w-3.5 text-[#1a5237]" />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-[#8a6f2a]">
-          {label}
-        </p>
-        {href ? (
-          <a
-            href={href}
-            target={external ? "_blank" : undefined}
-            rel={external ? "noopener noreferrer" : undefined}
-            className="inline-flex items-center gap-1 break-words text-sm font-medium text-[#1a5237] hover:underline"
-          >
-            {displayValue}
-            {external && <ExternalLink className="h-3 w-3 shrink-0" />}
-          </a>
-        ) : (
-          <p className="break-words text-sm font-medium text-foreground">{value}</p>
-        )}
-      </div>
-    </div>
+    <a
+      href={href}
+      aria-label={label}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-md transition hover:bg-[#c9a865] hover:text-[#0f3d26]"
+    >
+      {children}
+    </a>
   );
 }
