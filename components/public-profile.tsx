@@ -65,7 +65,7 @@ export function PublicProfile({ employee }: PublicProfileProps) {
             </div>
           )}
 
-          <div className="absolute inset-0 bg-linear-to-b from-black/25 via-transparent to-black/75" />
+          <div className="absolute inset-0 bg-linear-to-b from-black/25 from-0% via-transparent via-40% to-[#0f3d26] to-100%" />
 
           <div className="absolute left-4 top-4 z-10">
             <Image
@@ -86,7 +86,7 @@ export function PublicProfile({ employee }: PublicProfileProps) {
             </div>
           )}
 
-          <div className="pointer-events-none absolute inset-x-0 top-[48%] -translate-y-1/2">
+          {/* <div className="pointer-events-none absolute inset-x-0 top-[48%] -translate-y-1/2">
             <svg
               viewBox="0 0 400 180"
               preserveAspectRatio="none"
@@ -110,10 +110,10 @@ export function PublicProfile({ employee }: PublicProfileProps) {
                 strokeLinejoin="miter"
               />
             </svg>
-          </div>
+          </div> */}
 
           <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-4 pb-6 pt-10">
-            <h1 className="text-balance text-center text-3xl font-bold leading-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-4xl">
+            <h1 className="text-balance text-center text-3xl font-bold leading-tight text-white drop-shadow-[0_2px_10px_rgba(29,79,65)] sm:text-4xl">
               {employee.nomComplet}
             </h1>
             <p className="mt-2 text-center text-sm font-medium tracking-wide text-[#eadb8e] drop-shadow-md sm:text-base">
@@ -138,12 +138,12 @@ export function PublicProfile({ employee }: PublicProfileProps) {
                   label="WhatsApp"
                   external
                 >
-                  <MessageCircle className="h-[18px] w-[18px]" />
+                  <MessageCircle className="h-4.5 w-4.5" />
                 </SocialIcon>
               )}
               {employee.siteWeb && (
                 <SocialIcon href={employee.siteWeb} label="Site web" external>
-                  <Globe className="h-[18px] w-[18px]" />
+                  <Globe className="h-4.5 w-4.5" />
                 </SocialIcon>
               )}
               {/* <button
