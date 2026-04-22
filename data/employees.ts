@@ -26,7 +26,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-009-9D7494A9-2026",
     photoUrl:
-      "/images/annie.png",
+      "/images/baf.png",
     nomComplet: "Annie-Flore BALOUKI",
     poste: "Assistante de Direction",
     profession: "Secretariat Générale",
