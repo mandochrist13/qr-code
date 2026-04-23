@@ -203,7 +203,7 @@ export const employees: Employee[] = [
     id: "FEG-017-774AEC48-2026",
     photoUrl:
       "/images/vanessa.png",
-    nomComplet: "Vanessa OYANE",
+    nomComplet: "Vanessa OYANE NDONG",
     poste: "Agent d'accueil",
     profession: "Secretariat Générale",
     telephone: "+241 66 37 08 49",
