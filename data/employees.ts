@@ -15,7 +15,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-004-30727940-2026",
     photoUrl:
-      "/images/andre.png",
+      "/images/andre.jpg",
     nomComplet: "André OBIANG NGUEMA",
     poste: "Chef de pôle Gestion des adhérents et services numériques",
     profession: "Gestion des adhérents et services numériques",
@@ -37,7 +37,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-014-AB2F3C5E-2026",
     photoUrl:
-      "/images/audrey.png",
+      "/images/audrey.jpg",
     nomComplet: "Audrey OBOMANYO MANTCHO",
     poste: "Agent d'accueil",
     profession: "Secretariat Générale",
@@ -136,7 +136,7 @@ export const employees: Employee[] = [
    {
     id: "FEG-021-03052E9B-2026",
     photoUrl:
-      "",
+      "/images/ray.jpg",
     nomComplet: "Raymond Louis INDAVE",
     poste: "Agent de Liaison",
     profession: "Secretariat Générale",
@@ -169,7 +169,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-007-2531C18D-2026",
     photoUrl:
-      "",
+      "/images/shyph.jpg",
     nomComplet: "Syphrelle NDOMANOUENO",
     poste: "Chargée de Communication",
     profession: "Cellule Communication",
