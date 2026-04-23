@@ -114,7 +114,7 @@ export const employees: Employee[] = [
   {
     id: "FEG-011-875A1EC8-2026",
     photoUrl:
-      "/images/loic.png",
+      "/images/kiki.jpg",
     nomComplet: "Loïc BANGORI KIKI",
     poste: "Chargé d'études",
     profession: "Ressources Humaines & RSE",
